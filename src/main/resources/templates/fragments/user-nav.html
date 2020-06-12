@@ -1,0 +1,16 @@
+<th:block th:fragment="user-nav">
+        <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNav">
+            <ul class="navbar-nav row">
+                <li class="col-md-4">
+                    <a class="nav-link text-white active h5" th:href="@{/home}">Home</a>
+                </li>
+                <li class="col-md-4">
+                    <a class="nav-link text-white active h5" th:href="@{/add-product}">Add Product</a>
+                </li>
+                <li class="col-md-4">
+                    <a class="nav-link text-white active h5" th:href="@{/users/logout}">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</th:block>
