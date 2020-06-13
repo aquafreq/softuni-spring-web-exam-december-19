@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -27,7 +28,7 @@ public class ProductController {
 
     //da sa oprai
     @GetMapping("/add-product")
-    public String getAddProduct(Model model, HttpSession session, RedirectAttributes attributes) {
+    public String getAddProduct(Model model) {
 //        if (session.getAttribute("username") == null) {
 //            attributes.addAttribute("redirectUrl", "/add-product");
 //            return "redirect:/users/login";
@@ -35,23 +36,21 @@ public class ProductController {
         if (!model.containsAttribute("product")) {
             model.addAttribute("product", new ProductBindingModel());
         }
+
         return "add-product";
     }
 
     @PostMapping("/add-product")
-    public String postAddProduct(@ModelAttribute ProductBindingModel productBindingModel,
-                                 BindingResult result,
-                                 RedirectAttributes attributes,
-                                 HttpSession session) {
+    public String postAddProduct(@ModelAttribute ProductBindingModel productBindingModel, BindingResult result,
+                                 RedirectAttributes attributes, HttpSession session) {
         if (result.hasErrors()) {
             attributes.addFlashAttribute(productBindingModel);
             return "redirect:/add-product";
         }
 
+        productBindingModel.setUserId(String.valueOf(session.getAttribute("userId")));
         ProductServiceModel productServiceModel = modelMapper.map(productBindingModel, ProductServiceModel.class);
-        productServiceModel.setUserId(String.valueOf(session.getAttribute("userId")));
         productService.saveProduct(productServiceModel);
-
         return "redirect:/home";
     }
 

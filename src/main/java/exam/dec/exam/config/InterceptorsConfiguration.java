@@ -3,6 +3,7 @@ package exam.dec.exam.config;
 import exam.dec.exam.web.interceptor.AuthorizationInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -19,7 +20,7 @@ public class InterceptorsConfiguration implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry
                 .addInterceptor(authorizationInterceptor)
-                .addPathPatterns("/users/login", "/", "/users/register", "/css/*", "/img/**");
+                .excludePathPatterns("/", "/users/register","/users/login", "/css/*", "/img/**");
 //                .addPathPatterns("/home", "/add-product", "/details-product", "/logout", "/css/*", "/img/**");
     }
 }

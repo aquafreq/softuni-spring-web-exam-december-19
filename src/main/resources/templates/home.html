@@ -16,7 +16,8 @@
     <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Products</span></h1>
     <hr class="hr-3"/>
     <div class="bg-blur container w-50">
-        <div class="row mb-4 d-flex flex-column text-center" th:each="product : ${products}" th:object="${product}" th:hidden="${userId}">
+        <div class="row mb-4 d-flex flex-column text-center"
+             th:each="product : ${products}" th:object="${product}">
             <a th:href="@{/product/details/{id}(id=*{id})}">
                 <img library="img" th:src="@{/img/{sex}-{category}.jpg(sex=*{sex},category=*{category})}"
                      class="img-thumbnail" width="200"

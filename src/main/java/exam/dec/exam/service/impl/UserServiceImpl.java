@@ -1,10 +1,10 @@
 package exam.dec.exam.service.impl;
 
 import exam.dec.exam.model.entity.User;
+import exam.dec.exam.model.service.LoggedUserModel;
 import exam.dec.exam.model.service.UserLoginServiceModel;
 import exam.dec.exam.model.service.UserRegisterServiceModel;
 import exam.dec.exam.repository.UserRepository;
-import exam.dec.exam.service.ProductService;
 import exam.dec.exam.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,13 +43,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<UserLoginServiceModel> logUser(UserLoginServiceModel serviceModel) {
+    public Optional<LoggedUserModel> logUser(UserLoginServiceModel serviceModel) {
         Optional<User> optionalUser = userRepository.getByUsername(serviceModel.getUsername());
         final boolean[] suchUserExists = {false};
         optionalUser.ifPresent(user ->
                 suchUserExists[0] = passwordEncoder.matches(serviceModel.getPassword(), user.getPassword()));
 
-        return suchUserExists[0] ? Optional.of(serviceModel) : Optional.empty();
+        return suchUserExists[0] ?
+                Optional.of(modelMapper.map(optionalUser.get(), LoggedUserModel.class)) : Optional.empty();
     }
 
     @Override
